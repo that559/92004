@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+using System.ComponentModel.Design;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Linq.Expressions;
@@ -10,37 +11,86 @@ namespace _92004
     {
         // Golad variables
         static float totalInsurance = 0;
-        static int num1 = (int)0.95;
+        static List<string> NumMonths = new List<string>() { "1", "2", "3", "4", "5", "6" };
 
+        // Constant Variable
+        static float lossvaule = 0.95f;
+       
         // Methods
-        static int Months(float costDevice,string deviceName,int num1)
+        static int checkNum(int numDevice)
         {
-            // Display value lost of 6 months
-            
-           int months = Convert.ToInt32(($"{deviceName}'s Value over 6 months\n1.{costDevice * num1}\n2.{costDevice * num1}\n3.{costDevice * num1}\n4.{costDevice * num1}\n5.{costDevice * num1}\n6.{costDevice * num1}\n"));
-            return months;
+            while (true)
+            {
+                try
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("plase enter the number of device or devices");
+                    int number = Convert.ToInt32(numDevice);
+                    if (numDevice >= 0)
+                    {
+                        return numDevice;
+                    }
+                    Console.WriteLine("Error");
+                }
+                catch
+                {
+                    Console.WriteLine("Error: You must enter a valid number");
+                }
+                
+            }
 
         }
+        static float Months(float costDevice)
+        {
 
+            // Display value lost of 6 months
+            foreach (var NumMonths in NumMonths)
+            {
 
+                // will only do one month and will say the same number
+                float months = costDevice * lossvaule;
+                return months;
+            }
+
+            return 0;
+
+        }
+        // calls the categroy you picked by the name (for Summary)
+        static string CategoryName(int deviceCategory)
+        {
+            if (deviceCategory == 1) 
+            {
+                return "Laptop";
+            }
+            else if (deviceCategory == 2)
+            {
+                return "Decktop";
+            }
+            else
+            {
+                return "Other";
+            }
+            
+        }
+        
 
         // Sum up everything
-        static string Summary(string deviceName, float insuranceCost,string deviceCategory,float costDevice, int numDevice,int months)
+        static string Summary(string deviceName, float insuranceCost,int deviceCategory,float costDevice, int numDevice,float months)
         {
             string insuranceDetails = string.Join(", ", totalInsurance);
             Console.ForegroundColor = ConsoleColor.DarkBlue;
             return "---- Summary ---- \n" +
                 $"Device Name: {deviceName}\n" +
                 $"Insurance: ${insuranceCost}\n" +
-                $"Categroy: {deviceCategory}\n" +
+                $"Categroy: {CategoryName(deviceCategory)}\n" +
                 $"total Cost of device: ${numDevice * costDevice}\n" +
                 $"Number of Devices: {numDevice}\n" +
-                $"Device value lost over six months: ${months}\n";
+                $"Device value lost over six months:\n1:${months}\n2:${months}\n3:${months}\n4:${months}\n5:${months}\n6:${months}\n";
             
 
         }
 
-        
+
 
         // Checks the ategory to see if they are between 1 and 3 and Error if they are below or highter
         static int CheckCategory()
@@ -50,28 +100,26 @@ namespace _92004
                 try
                 {
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine("Plase pick the Category of your device(S)\n1.Laptops\n2.Decktops\n3.Other");
-                    int deviceCategory = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Please pick the category of your device(s):\n1. Laptops\n2. Desktops\n3. Other");
 
-                    if (deviceCategory == 1 && deviceCategory == 3)
+                    int deviceCategory = Convert.ToInt32(Console.ReadLine()); 
+
+                    if (deviceCategory >= 1 && deviceCategory <= 3)
                     {
                         return deviceCategory;
                     }
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Error plase enter number between 1 and 3");
-                }
 
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Error: Please enter a number between 1 and 3.");
+                }
                 catch
                 {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Error: You must enter a valid number");
+                    Console.WriteLine("Error: You must enter a valid number.");
                 }
-
             }
-            
-              
-
         }
+
 
 
         static string CheckProceed()
@@ -103,7 +151,8 @@ namespace _92004
             {
                 // Calculate Insurance if it is 5 or lass
                 float totalInsurance = costDevice * numDevice;
-                return totalInsurance;
+
+                return totalInsurance ;
             }
             else
             {
@@ -112,8 +161,8 @@ namespace _92004
                 // Calculate Insurance
                 float Insurance = costDevice * 0.9f * NewNumDevice;
                 float AddInsurance = costDevice * num;
-                float totalInsurance = Insurance + AddInsurance;
-                return totalInsurance;
+                return (float)Math.Round(totalInsurance = Insurance + AddInsurance, 2);
+              
 
             }
 
@@ -125,21 +174,17 @@ namespace _92004
         static void OneDevice()
         {
 
-            // enter category of devices
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Plase pick the Category of your device(S)\n1.Laptops\n2.Decktops\n3.Other");
-            string deviceCategory = Console.ReadLine();
-
+          
 
             // enter name of devices
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("plase enter the name of device(S)");
+            Console.WriteLine("plase enter the name of device or devices");
             string deviceName = Console.ReadLine();
 
 
             // enter number of devices
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("plase enter the number of device(S)");
+            
+          
             string numDevice = Console.ReadLine();
             int number = Convert.ToInt32(numDevice);
 
@@ -148,13 +193,14 @@ namespace _92004
             Console.WriteLine("plase enter the cost of each device or devices");
           
             float costDevice = float.Parse(Console.ReadLine(), CultureInfo.InvariantCulture.NumberFormat);
-           
+
 
 
 
             // Display summary
-            Console.WriteLine(Summary(deviceName,CalInsurance(costDevice,Convert.ToInt32(numDevice)),deviceCategory,costDevice,Convert.ToInt32(numDevice)),Months(costDevice,deviceName,num1));
-          
+            Console.WriteLine(Summary(deviceName, CalInsurance(costDevice, Convert.ToInt32(numDevice)), CheckCategory(), costDevice, Convert.ToInt32(numDevice), Months(costDevice)));
+
+
         }
 
 
@@ -173,9 +219,9 @@ namespace _92004
             {  
                 // Call OneDevice Method
                 OneDevice();
-                
+            
                 proceed = CheckProceed();
-               
+                
             }
         }
     }
