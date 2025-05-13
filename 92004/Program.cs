@@ -15,7 +15,7 @@ namespace _92004
 
         // Constant Variable
         static float lossvaule = 0.95f;
-       
+
         // Methods
         static int checkNum(int numDevice)
         {
@@ -23,8 +23,7 @@ namespace _92004
             {
                 try
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.WriteLine("plase enter the number of device or devices");
+
                     int number = Convert.ToInt32(numDevice);
                     if (numDevice >= 0)
                     {
@@ -36,7 +35,7 @@ namespace _92004
                 {
                     Console.WriteLine("Error: You must enter a valid number");
                 }
-                
+
             }
 
         }
@@ -58,7 +57,7 @@ namespace _92004
         // calls the categroy you picked by the name (for Summary)
         static string CategoryName(int deviceCategory)
         {
-            if (deviceCategory == 1) 
+            if (deviceCategory == 1)
             {
                 return "Laptop";
             }
@@ -70,12 +69,12 @@ namespace _92004
             {
                 return "Other";
             }
-            
+
         }
-        
+
 
         // Sum up everything
-        static string Summary(string deviceName, float insuranceCost,int deviceCategory,float costDevice, int numDevice,float months)
+        static string Summary(string deviceName, float insuranceCost, int deviceCategory, float costDevice, int numDevice, float months)
         {
             string insuranceDetails = string.Join(", ", totalInsurance);
             Console.ForegroundColor = ConsoleColor.DarkBlue;
@@ -86,7 +85,7 @@ namespace _92004
                 $"total Cost of device: ${numDevice * costDevice}\n" +
                 $"Number of Devices: {numDevice}\n" +
                 $"Device value lost over six months:\n1:${months}\n2:${months}\n3:${months}\n4:${months}\n5:${months}\n6:${months}\n";
-            
+
 
         }
 
@@ -102,7 +101,7 @@ namespace _92004
                     Console.ForegroundColor = ConsoleColor.White;
                     Console.WriteLine("Please pick the category of your device(s):\n1. Laptops\n2. Desktops\n3. Other");
 
-                    int deviceCategory = Convert.ToInt32(Console.ReadLine()); 
+                    int deviceCategory = Convert.ToInt32(Console.ReadLine());
 
                     if (deviceCategory >= 1 && deviceCategory <= 3)
                     {
@@ -141,7 +140,6 @@ namespace _92004
 
             }
         }
-
         // calculate the Insurance
         static float CalInsurance(float costDevice, int numDevice)
         {
@@ -152,7 +150,7 @@ namespace _92004
                 // Calculate Insurance if it is 5 or lass
                 float totalInsurance = costDevice * numDevice;
 
-                return totalInsurance ;
+                return totalInsurance;
             }
             else
             {
@@ -162,7 +160,7 @@ namespace _92004
                 float Insurance = costDevice * 0.9f * NewNumDevice;
                 float AddInsurance = costDevice * num;
                 return (float)Math.Round(totalInsurance = Insurance + AddInsurance, 2);
-              
+
 
             }
 
@@ -174,7 +172,7 @@ namespace _92004
         static void OneDevice()
         {
 
-          
+
 
             // enter name of devices
             Console.ForegroundColor = ConsoleColor.White;
@@ -183,15 +181,16 @@ namespace _92004
 
 
             // enter number of devices
-            
-          
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("plase enter the number of device or devices");
             string numDevice = Console.ReadLine();
             int number = Convert.ToInt32(numDevice);
 
             // enter cost of devices
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("plase enter the cost of each device or devices");
-          
+
             float costDevice = float.Parse(Console.ReadLine(), CultureInfo.InvariantCulture.NumberFormat);
 
 
@@ -216,12 +215,12 @@ namespace _92004
 
             string proceed = "";
             while (proceed.Equals(""))
-            {  
+            {
                 // Call OneDevice Method
                 OneDevice();
-            
+
                 proceed = CheckProceed();
-                
+
             }
         }
     }
